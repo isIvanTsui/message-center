@@ -1,0 +1,44 @@
+server:
+  port: 8888
+spring:
+  application:
+    name: message-center
+  kafka:
+    bootstrap-servers: localhost:9092
+  mail:
+    host: smtp.qq.com
+    port: 465
+    username: yfcui@foxmail.com
+    password: sgowrdnbvoefbhjd
+    default-encoding: UTF-8
+    protocol: smtps
+
+msg:
+  mq-type: eventBus
+
+  #email推送
+  email-enabled: true
+
+  #App消息推送(只能选择启用一种)
+  jpush-enabled: false #极光推送
+  jpush-app-key: asdfghjkl
+  jpush-master-secret: poiuytrewq
+
+  getui-enabled: false #个推
+  getui-app-id: 0987654321
+  getui-url: http://example.com
+  getui-master-secret: zxcvbnm
+  getui-app-key: 96854544
+
+  #短信推送(只能选择启用一种)
+  qcloud-sms-enabled: false #腾讯云短信
+  qcloud-sms-app-id: 11111111
+  qcloud-sms-app-key: 22222222
+
+  aliyun-sms-enabled: false #阿里云短信
+  aliyun-sms-region: cn-chengdu
+  aliyun-sms-access-key: 333333333
+  aliyun-sms-access-secret: 444444444
+
+  yunpian-sms-enabled: false #云片短信
+  yunpian-sms-api-key: 555555555
