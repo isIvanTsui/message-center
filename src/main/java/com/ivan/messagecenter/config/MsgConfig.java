@@ -39,15 +39,15 @@ public class MsgConfig {
     @PostConstruct
     private void initBean() {
         //判断APP推送配置
-        int appEnableds = BooleanUtil.toInt(messageProperties.getJpushEnabled())
-                + BooleanUtil.toInt(messageProperties.getGetuiEnabled());
+        int appEnableds = BooleanUtil.toInt(BooleanUtil.isTrue(messageProperties.getJpushEnabled()))
+                + BooleanUtil.toInt(BooleanUtil.isTrue(messageProperties.getGetuiEnabled()));
         if (appEnableds > 1) {
             throw new RuntimeException("只能开启1种APP推送服务");
         }
         //判断短信推送配置
-        int smsEnableds = BooleanUtil.toInt(messageProperties.getAliyunSmsEnabled())
-                + BooleanUtil.toInt(messageProperties.getYunpianSmsEnabled())
-                + BooleanUtil.toInt(messageProperties.getQcloudSmsEnabled());
+        int smsEnableds = BooleanUtil.toInt(BooleanUtil.isTrue(messageProperties.getAliyunSmsEnabled()))
+                + BooleanUtil.toInt(BooleanUtil.isTrue(messageProperties.getYunpianSmsEnabled()))
+                + BooleanUtil.toInt(BooleanUtil.isTrue(messageProperties.getQcloudSmsEnabled()));
         if (smsEnableds > 1) {
             throw new RuntimeException("只能开启1种短信推送服务");
         }
@@ -60,8 +60,8 @@ public class MsgConfig {
      */
     @Bean("appThreadPool")
     public AsyncTaskExecutor appMsgThreadPool() {
-        int appEnableds = BooleanUtil.toInt(messageProperties.getJpushEnabled())
-                + BooleanUtil.toInt(messageProperties.getGetuiEnabled());
+        int appEnableds = BooleanUtil.toInt(BooleanUtil.isTrue(messageProperties.getJpushEnabled()))
+                + BooleanUtil.toInt(BooleanUtil.isTrue(messageProperties.getGetuiEnabled()));
         if (NumberUtil.equals(appEnableds, 1)) {
             return createThreadPoolTaskExecutor("appmsg-thread-");
         }
@@ -75,9 +75,9 @@ public class MsgConfig {
      */
     @Bean("smsThreadPool")
     public AsyncTaskExecutor smsThreadPool() {
-        int smsEnableds = BooleanUtil.toInt(messageProperties.getAliyunSmsEnabled())
-                + BooleanUtil.toInt(messageProperties.getYunpianSmsEnabled())
-                + BooleanUtil.toInt(messageProperties.getQcloudSmsEnabled());
+        int smsEnableds = BooleanUtil.toInt(BooleanUtil.isTrue(messageProperties.getAliyunSmsEnabled()))
+                + BooleanUtil.toInt(BooleanUtil.isTrue(messageProperties.getYunpianSmsEnabled()))
+                + BooleanUtil.toInt(BooleanUtil.isTrue(messageProperties.getQcloudSmsEnabled()));
         if (NumberUtil.equals(smsEnableds, 1)) {
             return createThreadPoolTaskExecutor("sms-thread-");
         }

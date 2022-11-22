@@ -41,7 +41,7 @@ public class EmailMessageProducer {
         if (emailMessage != null && !"".equals(emailMessage.getReceiver()) && !"".equals(emailMessage.getContent())) {
             if (StrUtil.equalsIgnoreCase(messageProperties.getMqType(), MqTypeNames.KAFKA)) {
                 kafkaTemplate.send(MessageConstants.KAFKA_EMAIL_MSG_TOPIC, JSONUtil.toJsonStr(emailMessage));
-            } else if (StrUtil.equalsIgnoreCase(messageProperties.getMqType(), MqTypeNames.EVENT_BUS)) {
+            } else {
                 eventBus.register(emailMessageConsumer);
                 eventBus.post(emailMessage);
             }

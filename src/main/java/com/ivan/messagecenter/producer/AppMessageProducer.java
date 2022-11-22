@@ -41,7 +41,7 @@ public class AppMessageProducer {
         if (smsMessage != null && !"".equals(smsMessage.getReceiver()) && !"".equals(smsMessage.getContent())) {
             if (StrUtil.equalsIgnoreCase(messageProperties.getMqType(), MqTypeNames.KAFKA)) {
                 kafkaTemplate.send(MessageConstants.KAFKA_APP_MSG_TOPIC, JSONUtil.toJsonStr(smsMessage));
-            } else if (StrUtil.equalsIgnoreCase(messageProperties.getMqType(), MqTypeNames.EVENT_BUS)) {
+            } else {
                 eventBus.register(appMessageConsumer);
                 eventBus.post(smsMessage);
             }

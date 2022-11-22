@@ -8,7 +8,7 @@
 
 - 实现了邮件推送、短信推送和APP消息推送
 - 适配了极光推送、个推、阿里云短信、腾讯云短信、云片短信等第三方云服务，开箱即用
-- 支持本地eventBus消息队列框架和kafka消息队列框架，RabbitMQ、RocketMQ还在开发
+- 支持本地eventBus消息队列框架和kafka消息队列框架，默认使用本地eventBus；RabbitMQ、RocketMQ还在开发
 
 #### 核心流程
 
@@ -88,7 +88,7 @@ spring:
     protocol: smtps
 
 msg:
-  #采用哪种MQ，可选择[eventBus]、[kafka]
+  #采用哪种MQ，可选择[eventBus]、[kafka]，不配置时默认采用eventBus
   mq-type: eventBus
 
   #email推送
@@ -133,6 +133,8 @@ msg:
 | 参数名 | 参数用途 | 默认值 |
 | ------ | --------- | -------- |
 | msg.max-sms-per-second | 每秒钟发送短信条数上限 | 10 |
+| msg.mq-type | mq类型，可选[eventBus][kafka] | eventBus |
+| msg.email-enabled | 是否开启邮件推送 | false |
 |  |  |  |
 | msg.jpush-enabled | 是否启用极光推送 | false |
 | msg.jpush-app-key | 极光推送的appKey | 无 |

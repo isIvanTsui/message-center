@@ -1,19 +1,18 @@
-server:
-  port: 8888
 spring:
-  application:
-    name: message-center
+  #kafka相关配置
   kafka:
     bootstrap-servers: localhost:9092
+  #邮件相关配置
   mail:
     host: smtp.qq.com
     port: 465
-    username: yfcui@foxmail.com
+    username: xxx@foxmail.com
     password: sgowrdnbvoefbhjd
     default-encoding: UTF-8
     protocol: smtps
 
 msg:
+  #采用哪种MQ，可选择[eventBus]、[kafka]，不配置时默认采用eventBus
   mq-type: eventBus
 
   #email推送
@@ -42,3 +41,6 @@ msg:
 
   yunpian-sms-enabled: false #云片短信
   yunpian-sms-api-key: 555555555
+
+  #其他配置
+  max-sms-per-second: 10 #每秒钟发送短信条数上限
