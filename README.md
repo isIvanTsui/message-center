@@ -1,4 +1,4 @@
-<h1 align="center">推送消息</h1>
+<h1 align="center">推送消息💌</h1>
 
 **<span style="color:red">本项目是在</span>https://github.com/yindz/message-center<span style="color:red">上进行的修改</span>**
 
@@ -18,7 +18,7 @@
 
 ![image-20221121160116682](https://raw.githubusercontent.com/isIvanTsui/img/master/image-20221121160116682.png)
 
-#### 使用💌
+#### 使用
 
 ```java
 @RestController
