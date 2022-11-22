@@ -20,7 +20,6 @@
 
         <!--次要依赖-->
         <hutool.version>5.8.0</hutool.version>
-        <rocketmq.version>2.2.2</rocketmq.version>
         <fastjson.version>2.0.16</fastjson.version>
         <hutool.version>5.8.0</hutool.version>
         <guava.version>20.0</guava.version>
@@ -62,9 +61,7 @@
         </dependency>
 
         <!-- 个推api -->
-        <!--个推需要自己去
-        http://mvn.gt.getui.com/nexus/content/repositories/releases/com/gexin/platform/gexin-rp-sdk-http/
-        把它的包下载下来放自己本地的maven仓库里，因为maven中央仓库个推的包不能下载-->
+        <!--maven3.8.1+版本下载不了此jar包，需要关闭maven的安全策略，解决方案在下面-->
         <dependency>
             <groupId>com.gexin.platform</groupId>
             <artifactId>gexin-rp-sdk-http</artifactId>
@@ -108,6 +105,16 @@
         </dependency>
     </dependencies>
 
+    <repositories>
+        <!--maven3.8.1+版本开启了http安全拒绝策略，
+        需要自己去setting.xml文件里把id为maven-default-http-blocker的mirror标签注释掉
+        从而关闭安全策略。不然只能从http开头的仓库下载jar包，不能从https开头的仓库下载jar包-->
+        <repository>
+            <id>getui-nexus</id>
+            <url>http://mvn.gt.getui.com/nexus/content/repositories/releases/</url>
+        </repository>
+    </repositories>
+
 
     <dependencyManagement>
         <dependencies>
@@ -123,5 +130,4 @@
 
         </dependencies>
     </dependencyManagement>
-
 </project>
