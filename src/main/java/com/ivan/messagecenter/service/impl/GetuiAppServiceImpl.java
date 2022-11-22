@@ -1,7 +1,10 @@
 package com.ivan.messagecenter.service.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
+import com.gexin.rp.sdk.base.IPushResult;
+import com.gexin.rp.sdk.base.impl.TagTarget;
 import com.gexin.rp.sdk.http.IGtPush;
+import com.gexin.rp.sdk.template.TransmissionTemplate;
 import com.ivan.messagecenter.config.property.MessageProperties;
 import com.ivan.messagecenter.model.AppMessage;
 import com.ivan.messagecenter.model.BaseResult;
@@ -11,6 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -23,7 +28,7 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 @Service
 @Slf4j
-@ConditionalOnProperty(prefix = "msg", name = "getuiEnabled", havingValue = "getuiEnabled")
+@ConditionalOnProperty(prefix = "msg", name = "getuiEnabled", havingValue = "true")
 public class GetuiAppServiceImpl implements AppService {
 
     @Autowired
@@ -35,10 +40,11 @@ public class GetuiAppServiceImpl implements AppService {
     private static Map<String, IGtPush> iGtPushMap = new ConcurrentHashMap<>();
 
     /**
+     * 推
      * 推送app消息
      *
-     * @param appMessage
-     * @return
+     * @param appMessage 应用程序消息
+     * @return {@code BaseResult}
      */
     @Override
     public BaseResult push(AppMessage appMessage) {
@@ -49,8 +55,7 @@ public class GetuiAppServiceImpl implements AppService {
             throw new RuntimeException("个推消息接收者为空");
         }
         log.info("个推消息开始推送: {}", appMessage.getContent());
-        //TODO  个推 找不到类，这里还未完成
-        /*TransmissionTemplate template = new TransmissionTemplate();
+        TransmissionTemplate template = new TransmissionTemplate();
         template.setAppId(messageProperties.getGetuiAppId());
         template.setAppkey(messageProperties.getGetuiAppKey());
         template.setTransmissionType(1);
@@ -67,7 +72,7 @@ public class GetuiAppServiceImpl implements AppService {
         if (ret == null) {
             throw new RuntimeException("个推响应为空");
         }
-        log.info("个推响应数据: {}", ret);*/
+        log.info("个推响应数据: {}", ret);
         BaseResult result = new BaseResult();
         result.setMessageId(appMessage.getMessageId());
         result.setSuccess(true);
