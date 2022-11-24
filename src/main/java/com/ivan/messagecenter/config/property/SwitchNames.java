@@ -3,7 +3,7 @@ package com.ivan.messagecenter.config.property;
 /**
  * 开关名字
  *
- * @author yingfan.cui@dezhentech.com
+ * @author is.ivan.tsui@gmail.com
  * @date 2022/11/24 14:26:18
  */
 public interface SwitchNames {

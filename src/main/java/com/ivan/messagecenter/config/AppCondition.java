@@ -11,7 +11,7 @@ import org.springframework.core.type.AnnotatedTypeMetadata;
 /**
  * App推送配置判断
  *
- * @author yingfan.cui@dezhentech.com
+ * @author is.ivan.tsui@gmail.com
  * @date 2022/11/24 14:04:27
  */
 public class AppCondition extends SpringBootCondition {

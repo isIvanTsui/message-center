@@ -11,7 +11,7 @@ import org.springframework.core.type.AnnotatedTypeMetadata;
 /**
  * 短信推送配置判断
  *
- * @author yingfan.cui@dezhentech.com
+ * @author is.ivan.tsui@gmail.com
  * @date 2022/11/24 14:35:05
  */
 public class SmsCondition extends SpringBootCondition {

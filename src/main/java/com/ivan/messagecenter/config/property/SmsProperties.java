@@ -5,7 +5,7 @@ import lombok.Data;
 /**
  * 短信推送属性
  *
- * @author yingfan.cui@dezhentech.com
+ * @author is.ivan.tsui@gmail.com
  * @date 2022/11/24 15:41:23
  */
 @Data

@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 /**
  * 测试属性
  *
- * @author yingfan.cui@dezhentech.com
+ * @author is.ivan.tsui@gmail.com
  * @date 2022/11/24 15:50:48
  */
 @Component
