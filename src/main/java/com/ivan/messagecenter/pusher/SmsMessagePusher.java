@@ -1,5 +1,6 @@
 package com.ivan.messagecenter.pusher;
 
+import cn.hutool.core.util.BooleanUtil;
 import com.google.common.util.concurrent.RateLimiter;
 import com.ivan.messagecenter.config.property.MessageProperties;
 import com.ivan.messagecenter.constant.MessageConstants;
@@ -42,10 +43,8 @@ public class SmsMessagePusher {
             String code = sendSms(message);
             if (MessageConstants.RESULT_OK.equalsIgnoreCase(code)) {
                 log.info("已成功发送短信到手机号 {}, messageId={}", message.getReceiver(), message.getMessageId());
-//                CallbackUtils.executeCallback(message, true, null);
             } else {
                 log.error("无法发送短信到手机号 {}, messageId={}", message.getReceiver(), message.getMessageId());
-//                CallbackUtils.executeCallback(message, false, code);
             }
         } else {
             throw new RuntimeException("已达到短信限流策略的上限");
@@ -62,7 +61,9 @@ public class SmsMessagePusher {
         if (message == null) {
             return null;
         }
-        if (messageProperties.getAliyunSmsEnabled()) {
+        if (BooleanUtil.isTrue(messageProperties.getAliyun().getEnabled())
+                || BooleanUtil.isTrue(messageProperties.getQcloud().getEnabled())
+                || BooleanUtil.isTrue(messageProperties.getYunpian().getEnabled())) {
             return smsService.send(message);
         } else {
             throw new RuntimeException("未开启短信服务！");

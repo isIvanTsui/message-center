@@ -4,6 +4,7 @@ import cn.hutool.core.util.NumberUtil;
 import cn.hutool.http.HttpStatus;
 import cn.hutool.json.JSONUtil;
 import com.ivan.messagecenter.config.property.MessageProperties;
+import com.ivan.messagecenter.config.property.SmsProperties;
 import com.ivan.messagecenter.config.property.SwitchNames;
 import com.ivan.messagecenter.constant.MessageConstants;
 import com.ivan.messagecenter.model.SmsMessage;
@@ -55,8 +56,9 @@ public class YunpianSmsServiceImpl implements SmsService {
         if (message == null) {
             return null;
         }
+        SmsProperties yunpian = messageProperties.getYunpian();
         Map<String, String> paramsMap = new HashMap<>(16);
-        paramsMap.put("apikey", messageProperties.getYunpianSmsApiKey());
+        paramsMap.put("apikey", yunpian.getApiKey());
 
         //电话号码
         paramsMap.put("mobile", message.getReceiver());

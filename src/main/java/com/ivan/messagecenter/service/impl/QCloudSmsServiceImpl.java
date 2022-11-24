@@ -6,6 +6,7 @@ import cn.hutool.crypto.digest.DigestUtil;
 import cn.hutool.http.HttpStatus;
 import cn.hutool.json.JSONUtil;
 import com.ivan.messagecenter.config.property.MessageProperties;
+import com.ivan.messagecenter.config.property.SmsProperties;
 import com.ivan.messagecenter.config.property.SwitchNames;
 import com.ivan.messagecenter.constant.MessageConstants;
 import com.ivan.messagecenter.model.SmsMessage;
@@ -77,11 +78,12 @@ public class QCloudSmsServiceImpl implements SmsService {
         long timestamp = System.currentTimeMillis();
         paramsMap.put("time", timestamp);
 
+        SmsProperties qcloud = messageProperties.getQcloud();
         //App 凭证
-        String src = messageProperties.getQcloudSmsAppKey() + "&random=" + randomNumber + "&time=" + timestamp + "&mobile=" + message.getReceiver();
+        String src = qcloud.getAppKey() + "&random=" + randomNumber + "&time=" + timestamp + "&mobile=" + message.getReceiver();
         paramsMap.put("sig", DigestUtil.sha256(src.getBytes(StandardCharsets.UTF_8)));
 
-        String url = String.format(BASE_URL, messageProperties.getQcloudSmsAppId(), randomNumber);
+        String url = String.format(BASE_URL, qcloud.getAppId(), randomNumber);
         String requestJson = JSONUtil.toJsonStr(paramsMap);
         log.info("调用腾讯云短信接口URL: {}, 请求参数: {}", url, requestJson);
         try {

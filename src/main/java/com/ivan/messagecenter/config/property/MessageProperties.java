@@ -2,15 +2,16 @@ package com.ivan.messagecenter.config.property;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-
+import org.springframework.stereotype.Component;
 
 /**
- * 消息配置参数
+ * 测试属性
  *
- * @author is.ivan.tsui@gmail.com
- * @date 2022/11/18 11:06:06
+ * @author yingfan.cui@dezhentech.com
+ * @date 2022/11/24 15:50:48
  */
-@ConfigurationProperties(prefix = "msg")
+@Component
+@ConfigurationProperties("msg")
 @Data
 public class MessageProperties {
     /**
@@ -24,92 +25,27 @@ public class MessageProperties {
     private Integer maxSmsPerSecond;
 
     /**
-     * 是否启用邮箱推送
+     * 个推
      */
-    private Boolean emailEnabled = false;
+    private AppProperties getui;
 
     /**
-     * 是否启用极光推送
+     * 极光推送
      */
-    private Boolean jpushEnabled = false;
+    private AppProperties jpush;
 
     /**
-     * 极光推送的appKey
+     * 阿里云短信
      */
-    private String jpushAppKey;
+    private SmsProperties aliyun;
 
     /**
-     * 极光推送的密钥
+     * 腾讯云短信
      */
-    private String jpushMasterSecret;
+    private SmsProperties qcloud;
 
     /**
-     * 是否启用个推
+     * 云片短信
      */
-    private Boolean getuiEnabled = false;
-
-    /**
-     * 个推的appId
-     */
-    private String getuiAppId;
-
-    /**
-     * 个推的url
-     */
-    private String getuiUrl;
-
-    /**
-     * 个推的密钥
-     */
-    private String getuiMasterSecret;
-
-    /**
-     * 个推的appKey
-     */
-    private String getuiAppKey;
-
-    /**
-     * 是否启用腾讯云短信
-     */
-    private Boolean qcloudSmsEnabled = false;
-
-    /**
-     * 腾讯云短信appId
-     */
-    private String qcloudSmsAppId;
-
-    /**
-     * 腾讯云短信appKey
-     */
-    private String qcloudSmsAppKey;
-
-    /**
-     * 是否启用阿里云短信
-     */
-    private Boolean aliyunSmsEnabled;
-
-    /**
-     * 阿里云短信区域
-     */
-    private String aliyunSmsRegion = "cn-chengdu";
-
-    /**
-     * 阿里云短信accessKey
-     */
-    private String aliyunSmsAccessKey;
-
-    /**
-     * 阿里云短信accessSecret
-     */
-    private String aliyunSmsAccessSecret;
-
-    /**
-     * 是否启用云片短信
-     */
-    private Boolean yunpianSmsEnabled;
-
-    /**
-     * 云片apiKey
-     */
-    private String yunpianSmsApiKey;
+    private SmsProperties yunpian;
 }

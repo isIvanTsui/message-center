@@ -13,6 +13,7 @@ import cn.jpush.api.push.model.audience.Audience;
 import cn.jpush.api.push.model.notification.AndroidNotification;
 import cn.jpush.api.push.model.notification.IosNotification;
 import cn.jpush.api.push.model.notification.Notification;
+import com.ivan.messagecenter.config.property.AppProperties;
 import com.ivan.messagecenter.config.property.MessageProperties;
 import com.ivan.messagecenter.config.property.SwitchNames;
 import com.ivan.messagecenter.model.AppMessage;
@@ -132,10 +133,11 @@ public class JPushAppServiceImpl implements AppService {
      * 获取客户端实例
      */
     private JPushClient getJPushClient() {
-        String key = messageProperties.getJpushAppKey();
+        AppProperties jpush = messageProperties.getJpush();
+        String key = jpush.getAppKey();
         return jPushClientMap.computeIfAbsent(key, k -> {
             ClientConfig clientConfig = ClientConfig.getInstance();
-            return new JPushClient(messageProperties.getJpushMasterSecret(), messageProperties.getJpushAppKey(), null, clientConfig);
+            return new JPushClient(jpush.getMasterSecret(), jpush.getAppKey(), null, clientConfig);
         });
     }
 }

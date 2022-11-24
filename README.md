@@ -80,6 +80,8 @@ spring:
     bootstrap-servers: localhost:9092
   #邮件相关配置
   mail:
+    #邮件推送
+    enabled: true
     host: smtp.qq.com
     port: 465
     username: yfcui@foxmail.com
@@ -91,73 +93,72 @@ msg:
   #采用哪种MQ，可选择[eventBus]、[kafka]，不配置时默认采用eventBus
   mq-type: eventBus
 
-  #email推送
-  email-enabled: true
-
-  #App消息推送(只能选择启用一种)
-  jpush-enabled: false #极光推送
-  jpush-app-key: asdfghjkl
-  jpush-master-secret: poiuytrewq
-
-  getui-enabled: false #个推
-  getui-app-id: 0987654321
-  getui-url: http://example.com
-  getui-master-secret: zxcvbnm
-  getui-app-key: 96854544
-
-  #短信推送(只能选择启用一种)
-  qcloud-sms-enabled: false #腾讯云短信
-  qcloud-sms-app-id: 11111111
-  qcloud-sms-app-key: 22222222
-
-  aliyun-sms-enabled: false #阿里云短信
-  aliyun-sms-region: cn-chengdu
-  aliyun-sms-access-key: 333333333
-  aliyun-sms-access-secret: 444444444
-
-  yunpian-sms-enabled: false #云片短信
-  yunpian-sms-api-key: 555555555
-  
   #其他配置
   max-sms-per-second: 10 #每秒钟发送短信条数上限
+
+  #App消息推送(只能选择启用一种)
+  jpush:
+    enabled: true
+    appKey: dsfdsafs
+    master-secret: sdfsa
+  getui:
+    enabled: false
+    appId: 2475897384
+    url: http://example.com
+    master-secret: zxlfsj
+    appKey: 8099789
+
+  #短信推送(只能选择启用一种)
+  qcloud:
+    enabled: true
+    appId: 1114234
+    appKey: sdfjs
+  aliyun:
+    enabled: false
+    region: cn-chengdu
+    access-key: abcdjsad
+    access-secret: fdasjfkl
+  yunpian:
+    enabled: false
+    api-key: fdsafs
 ```
 
 > 注意：
 >
 > - 由于短信发送服务属于按量计费且受运营商管制，因此强烈建议设置 msg.max-sms-per-second 参数为一个合理的值，避免因调用方的失误造成短时间内发送大量短信
-> - 只能开启1种app消息推送服务(msg.jpush-enabled / msg.getui-enabled 其中一项配置为 true)
-> - 只能开启1种短信服务(msg.qcloud-sms-enabled / msg.aliyun-sms-enabled / msg.yunpian-sms-enabled 其中一项配置为 true)
+> - 只能开启1种app消息推送服务(msg.jpush.enabled / msg.getui.enabled 其中一项配置为 true)
+> - 只能开启1种短信服务(msg.qcloud.enabled / msg.aliyun.enabled / msg.yunpian.enabled 其中一项配置为 true)
 
 #### 可能需要修改的参数介绍
 
 | 参数名 | 参数用途 | 默认值 |
 | ------ | --------- | -------- |
 | msg.max-sms-per-second | 每秒钟发送短信条数上限 | 10 |
-| msg.mq-type | mq类型，可选[eventBus][kafka] | eventBus |
-| msg.email-enabled | 是否开启邮件推送 | false |
+| msg.mq-type | mq类型，可选[eventBus] [kafka] | eventBus |
 |  |  |  |
-| msg.jpush-enabled | 是否启用极光推送 | false |
-| msg.jpush-app-key | 极光推送的appKey | 无 |
-| msg.jpush-master-secret | 极光推送的密钥 | 无 |
+| msg.jpush.enabled | 是否启用极光推送 | false |
+| msg.jpush.app-key | 极光推送的appKey | 无 |
+| msg.jpush.master-secret | 极光推送的密钥 | 无 |
 |  |  |  |
-| msg.getui-enabled | 是否启用个推 | false |
-| msg.getui-app-id | 个推的appId | 无 |
-| msg.getui-url | 个推的url | 无 |
-| msg.getui-master-secret | 个推的密钥 | 无 |
-| msg.getui-app-key | 个推的appKey | 无 |
+| msg.getui.enabled | 是否启用个推 | false |
+| msg.getui.app-id | 个推的appId | 无 |
+| msg.getui.url | 个推的url | 无 |
+| msg.getui.master-secret | 个推的密钥 | 无 |
+| msg.getui.app-key | 个推的appKey | 无 |
 |  |  |  |
-| msg.qcloud-sms-enabled | 是否启用腾讯云短信 | false |
-| msg.qcloud-sms-app-id | 腾讯云短信appId | 无 |
-| msg.qcloud-sms-app-key | 腾讯云短信appKey | 无 |
+| msg.qcloud.enabled | 是否启用腾讯云短信 | false |
+| msg.qcloud.app-id | 腾讯云短信appId | 无 |
+| msg.qcloud.pp-key | 腾讯云短信appKey | 无 |
 |  |  |  |
-| msg.aliyun-sms-enabled | 是否启用阿里云短信 | false |
-| msg.aliyun-sms-region | 阿里云短信区域编码 | cn-hangzhou |
-| msg.aliyun-sms-access-key | 阿里云短信accessKey | 无 |
-| msg.aliyun-sms-access-secret | 阿里云短信accessSecret | 无 |
+| msg.aliyun.enabled | 是否启用阿里云短信 | false |
+| msg.aliyun.region | 阿里云短信区域编码 | cn-hangzhou |
+| msg.aliyun.access-key | 阿里云短信accessKey | 无 |
+| msg.aliyun.access-secret | 阿里云短信accessSecret | 无 |
 |  |  |  |
-| msg.yunpian-sms-enabled | 是否启用云片短信 | false |
-| msg.yunpian-sms-api-key | 云片apiKey | 无 |
+| msg.yunpian.enabled | 是否启用云片短信 | false |
+| msg.yunpian.api-key | 云片apiKey | 无 |
 |  |  |  |
+| spring.mail.enabled | 是否开启邮件推送 | false |
 | spring.mail.host | 邮件SMTP服务器IP地址或主机名 | 无 |
 | spring.mail.port | 邮件SMTP服务器端口号 | 无 |
 | spring.mail.username | 邮件SMTP服务器用户名 | 无 |

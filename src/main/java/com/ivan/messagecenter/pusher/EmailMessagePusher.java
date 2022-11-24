@@ -3,16 +3,17 @@ package com.ivan.messagecenter.pusher;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.io.file.FileNameUtil;
 import cn.hutool.core.util.StrUtil;
+import com.ivan.messagecenter.config.property.SwitchNames;
 import com.ivan.messagecenter.constant.MessageConstants;
 import com.ivan.messagecenter.model.EmailMessage;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.mail.MailProperties;
+import org.springframework.core.env.Environment;
 import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.retry.annotation.Backoff;
-import org.springframework.retry.annotation.Recover;
 import org.springframework.retry.annotation.Retryable;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
@@ -39,6 +40,9 @@ public class EmailMessagePusher {
     @Autowired(required = false)
     private JavaMailSender mailSender;
 
+    @Autowired
+    private Environment environment;
+
     /**
      * 异步推送
      */
@@ -46,29 +50,21 @@ public class EmailMessagePusher {
     @Retryable(value = Exception.class, maxAttempts = 3, backoff = @Backoff(delay = 1000L, multiplier = 2))
     public void push(EmailMessage message) {
         try {
-            String msg = sendEmail(message);
-            if (StrUtil.equalsIgnoreCase(MessageConstants.RESULT_OK, msg)) {
-                log.info("邮件已成功发送到 {}, messageId={}", message.getReceiver(), message.getMessageId());
-                //暂时不提供回调
-//                CallbackUtils.executeCallback(message, true, null);
+            if (StrUtil.equalsIgnoreCase(environment.getProperty(SwitchNames.EMAIL), "true")) {
+                String msg = sendEmail(message);
+                if (StrUtil.equalsIgnoreCase(MessageConstants.RESULT_OK, msg)) {
+                    log.info("邮件已成功发送到 {}, messageId={}", message.getReceiver(), message.getMessageId());
+                } else {
+                    throw new RuntimeException("发送邮件失败");
+                }
             } else {
-                throw new RuntimeException("发送邮件失败");
+                throw new RuntimeException("未开启短信推送服务");
             }
+
         } catch (MessagingException e) {
             log.error("发送邮件出现异常", e);
             throw new RuntimeException("发送邮件出现异常");
         }
-    }
-
-    /**
-     * 重试失败时的日志记录
-     *
-     * @param re
-     */
-    @Recover
-    private void recover(Exception re, EmailMessage message) {
-        log.error("重试异常", re);
-//        CallbackUtils.executeCallback(message, false, re.getMessage());
     }
 
     /**

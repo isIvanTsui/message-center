@@ -4,6 +4,8 @@ spring:
     bootstrap-servers: localhost:9092
   #邮件相关配置
   mail:
+    #邮件推送
+    enabled: true
     host: smtp.qq.com
     port: 465
     username: xxx@foxmail.com
@@ -15,32 +17,33 @@ msg:
   #采用哪种MQ，可选择[eventBus]、[kafka]，不配置时默认采用eventBus
   mq-type: eventBus
 
-  #email推送
-  email-enabled: true
-
-  #App消息推送(只能选择启用一种)
-  jpush-enabled: false #极光推送
-  jpush-app-key: asdfghjkl
-  jpush-master-secret: poiuytrewq
-
-  getui-enabled: false #个推
-  getui-app-id: 0987654321
-  getui-url: http://example.com
-  getui-master-secret: zxcvbnm
-  getui-app-key: 96854544
-
-  #短信推送(只能选择启用一种)
-  qcloud-sms-enabled: false #腾讯云短信
-  qcloud-sms-app-id: 11111111
-  qcloud-sms-app-key: 22222222
-
-  aliyun-sms-enabled: false #阿里云短信
-  aliyun-sms-region: cn-chengdu
-  aliyun-sms-access-key: 333333333
-  aliyun-sms-access-secret: 444444444
-
-  yunpian-sms-enabled: false #云片短信
-  yunpian-sms-api-key: 555555555
-
   #其他配置
   max-sms-per-second: 10 #每秒钟发送短信条数上限
+
+  #App消息推送(只能选择启用一种)
+  jpush:
+    enabled: true
+    appKey: dsfdsafs
+    master-secret: sdfsa
+  getui:
+    enabled: false
+    appId: 2475897384
+    url: http://example.com
+    master-secret: zxlfsj
+    appKey: 8099789
+
+  #短信推送(只能选择启用一种)
+  qcloud:
+    enabled: true
+    appId: 1114234
+    appKey: sdfjs
+  aliyun:
+    enabled: false
+    region: cn-chengdu
+    access-key: abcdjsad
+    access-secret: fdasjfkl
+  yunpian:
+    enabled: false
+    api-key: fdsafs
+
+

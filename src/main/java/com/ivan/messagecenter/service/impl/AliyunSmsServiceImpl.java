@@ -11,6 +11,7 @@ import com.aliyuncs.exceptions.ClientException;
 import com.aliyuncs.http.MethodType;
 import com.aliyuncs.profile.DefaultProfile;
 import com.ivan.messagecenter.config.property.MessageProperties;
+import com.ivan.messagecenter.config.property.SmsProperties;
 import com.ivan.messagecenter.config.property.SwitchNames;
 import com.ivan.messagecenter.constant.MessageConstants;
 import com.ivan.messagecenter.model.SmsMessage;
@@ -90,7 +91,8 @@ public class AliyunSmsServiceImpl implements SmsService {
      */
     @PostConstruct
     private void initClient() {
-        DefaultProfile profile = DefaultProfile.getProfile(messageProperties.getAliyunSmsRegion(), messageProperties.getAliyunSmsAccessKey(), messageProperties.getAliyunSmsAccessSecret());
+        SmsProperties aliyun = messageProperties.getAliyun();
+        DefaultProfile profile = DefaultProfile.getProfile(aliyun.getRegion(), aliyun.getAccessKey(), aliyun.getAccessSecret());
         client = new DefaultAcsClient(profile);
     }
 }

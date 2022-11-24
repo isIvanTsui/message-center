@@ -5,6 +5,7 @@ import com.gexin.rp.sdk.base.IPushResult;
 import com.gexin.rp.sdk.base.impl.TagTarget;
 import com.gexin.rp.sdk.http.IGtPush;
 import com.gexin.rp.sdk.template.TransmissionTemplate;
+import com.ivan.messagecenter.config.property.AppProperties;
 import com.ivan.messagecenter.config.property.MessageProperties;
 import com.ivan.messagecenter.config.property.SwitchNames;
 import com.ivan.messagecenter.model.AppMessage;
@@ -55,16 +56,17 @@ public class GetuiAppServiceImpl implements AppService {
         if (CollectionUtil.isEmpty(appMessage.getReceiverList())) {
             throw new RuntimeException("个推消息接收者为空");
         }
+        AppProperties getui = messageProperties.getGetui();
         log.info("个推消息开始推送: {}", appMessage.getContent());
         TransmissionTemplate template = new TransmissionTemplate();
-        template.setAppId(messageProperties.getGetuiAppId());
-        template.setAppkey(messageProperties.getGetuiAppKey());
+        template.setAppId(getui.getAppId());
+        template.setAppkey(getui.getAppKey());
         template.setTransmissionType(1);
         template.setTransmissionContent(appMessage.getContent());
         List<TagTarget> tagTargetList = new ArrayList<>(appMessage.getReceiverList().size());
         for (String receiver : appMessage.getReceiverList()) {
             TagTarget tagTarget = new TagTarget();
-            tagTarget.setAppId(messageProperties.getGetuiAppId());
+            tagTarget.setAppId(getui.getAppId());
             tagTarget.setClientId(receiver);
             tagTargetList.add(tagTarget);
         }
@@ -84,7 +86,8 @@ public class GetuiAppServiceImpl implements AppService {
      * 获取客户端实例
      */
     private IGtPush getGtClient() {
-        String key = messageProperties.getGetuiAppId();
-        return iGtPushMap.computeIfAbsent(key, k -> new IGtPush(messageProperties.getGetuiUrl(), messageProperties.getGetuiAppKey(), messageProperties.getGetuiMasterSecret()));
+        AppProperties getui = messageProperties.getGetui();
+        String key = getui.getAppId();
+        return iGtPushMap.computeIfAbsent(key, k -> new IGtPush(getui.getUrl(), getui.getAppKey(), getui.getMasterSecret()));
     }
 }

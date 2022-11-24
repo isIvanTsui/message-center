@@ -1,7 +1,6 @@
 package com.ivan.messagecenter.config;
 
 import cn.hutool.core.util.BooleanUtil;
-import cn.hutool.core.util.NumberUtil;
 import com.ivan.messagecenter.config.property.MessageProperties;
 import com.ivan.messagecenter.config.property.SwitchNames;
 import lombok.extern.slf4j.Slf4j;
@@ -41,15 +40,15 @@ public class MsgConfig {
     @PostConstruct
     private void initBean() {
         //判断APP推送配置
-        int appEnableds = BooleanUtil.toInt(BooleanUtil.isTrue(messageProperties.getJpushEnabled()))
-                + BooleanUtil.toInt(BooleanUtil.isTrue(messageProperties.getGetuiEnabled()));
+        int appEnableds = BooleanUtil.toInt(BooleanUtil.isTrue(messageProperties.getJpush().getEnabled()))
+                + BooleanUtil.toInt(BooleanUtil.isTrue(messageProperties.getGetui().getEnabled()));
         if (appEnableds > 1) {
             throw new RuntimeException("只能开启1种APP推送服务");
         }
         //判断短信推送配置
-        int smsEnableds = BooleanUtil.toInt(BooleanUtil.isTrue(messageProperties.getAliyunSmsEnabled()))
-                + BooleanUtil.toInt(BooleanUtil.isTrue(messageProperties.getYunpianSmsEnabled()))
-                + BooleanUtil.toInt(BooleanUtil.isTrue(messageProperties.getQcloudSmsEnabled()));
+        int smsEnableds = BooleanUtil.toInt(BooleanUtil.isTrue(messageProperties.getAliyun().getEnabled()))
+                + BooleanUtil.toInt(BooleanUtil.isTrue(messageProperties.getYunpian().getEnabled()))
+                + BooleanUtil.toInt(BooleanUtil.isTrue(messageProperties.getQcloud().getEnabled()));
         if (smsEnableds > 1) {
             throw new RuntimeException("只能开启1种短信推送服务");
         }
@@ -63,12 +62,7 @@ public class MsgConfig {
     @Bean("appThreadPool")
     @Conditional(AppCondition.class)
     public AsyncTaskExecutor appMsgThreadPool() {
-        int appEnableds = BooleanUtil.toInt(BooleanUtil.isTrue(messageProperties.getJpushEnabled()))
-                + BooleanUtil.toInt(BooleanUtil.isTrue(messageProperties.getGetuiEnabled()));
-        if (NumberUtil.equals(appEnableds, 1)) {
-            return createThreadPoolTaskExecutor("appmsg-thread-");
-        }
-        return null;
+        return createThreadPoolTaskExecutor("appmsg-thread-");
     }
 
     /**
@@ -79,13 +73,7 @@ public class MsgConfig {
     @Bean("smsThreadPool")
     @Conditional(SmsCondition.class)
     public AsyncTaskExecutor smsThreadPool() {
-        int smsEnableds = BooleanUtil.toInt(BooleanUtil.isTrue(messageProperties.getAliyunSmsEnabled()))
-                + BooleanUtil.toInt(BooleanUtil.isTrue(messageProperties.getYunpianSmsEnabled()))
-                + BooleanUtil.toInt(BooleanUtil.isTrue(messageProperties.getQcloudSmsEnabled()));
-        if (NumberUtil.equals(smsEnableds, 1)) {
-            return createThreadPoolTaskExecutor("sms-thread-");
-        }
-        return null;
+        return createThreadPoolTaskExecutor("sms-thread-");
     }
 
     /**

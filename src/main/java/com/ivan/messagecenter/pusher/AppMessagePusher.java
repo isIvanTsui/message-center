@@ -1,5 +1,6 @@
 package com.ivan.messagecenter.pusher;
 
+import cn.hutool.core.util.BooleanUtil;
 import com.ivan.messagecenter.config.property.MessageProperties;
 import com.ivan.messagecenter.model.AppMessage;
 import com.ivan.messagecenter.model.BaseResult;
@@ -7,7 +8,6 @@ import com.ivan.messagecenter.service.AppService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.retry.annotation.Backoff;
-import org.springframework.retry.annotation.Recover;
 import org.springframework.retry.annotation.Retryable;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
@@ -43,27 +43,15 @@ public class AppMessagePusher {
             log.error("app消息的接收者为空");
             return;
         }
-        if (messageProperties.getJpushEnabled()) {
+        if (BooleanUtil.isTrue(messageProperties.getJpush().getEnabled()) || BooleanUtil.isTrue(messageProperties.getGetui().getEnabled())) {
             BaseResult result = appService.push(message);
             if (result != null && result.isSuccess()) {
                 log.info("极光推送成功！messageId={}", message.getMessageId());
-//                CallbackUtils.executeCallback(message, true, null);
             } else {
                 throw new RuntimeException("极光推送异常");
             }
         } else {
-            throw new RuntimeException("必须且只能开启1种app消息推送服务！");
+            throw new RuntimeException("未开启APP推送服务！");
         }
-    }
-
-    /**
-     * 重试失败时的日志记录
-     *
-     * @param re
-     */
-    @Recover
-    private void recover(Exception re, AppMessage message) {
-        log.error("重试异常", re);
-//        CallbackUtils.executeCallback(message, false, re.getMessage());
     }
 }
