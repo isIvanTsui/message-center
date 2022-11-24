@@ -6,6 +6,7 @@ import com.gexin.rp.sdk.base.impl.TagTarget;
 import com.gexin.rp.sdk.http.IGtPush;
 import com.gexin.rp.sdk.template.TransmissionTemplate;
 import com.ivan.messagecenter.config.property.MessageProperties;
+import com.ivan.messagecenter.config.property.SwitchNames;
 import com.ivan.messagecenter.model.AppMessage;
 import com.ivan.messagecenter.model.BaseResult;
 import com.ivan.messagecenter.service.AppService;
@@ -28,7 +29,7 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 @Service
 @Slf4j
-@ConditionalOnProperty(prefix = "msg", name = "getuiEnabled", havingValue = "true")
+@ConditionalOnProperty(name = SwitchNames.GETUI, havingValue = "true")
 public class GetuiAppServiceImpl implements AppService {
 
     @Autowired

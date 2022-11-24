@@ -3,11 +3,13 @@ package com.ivan.messagecenter.config;
 import cn.hutool.core.util.BooleanUtil;
 import cn.hutool.core.util.NumberUtil;
 import com.ivan.messagecenter.config.property.MessageProperties;
+import com.ivan.messagecenter.config.property.SwitchNames;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Conditional;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.task.AsyncTaskExecutor;
 import org.springframework.scheduling.annotation.EnableAsync;
@@ -59,6 +61,7 @@ public class MsgConfig {
      * @return
      */
     @Bean("appThreadPool")
+    @Conditional(AppCondition.class)
     public AsyncTaskExecutor appMsgThreadPool() {
         int appEnableds = BooleanUtil.toInt(BooleanUtil.isTrue(messageProperties.getJpushEnabled()))
                 + BooleanUtil.toInt(BooleanUtil.isTrue(messageProperties.getGetuiEnabled()));
@@ -74,6 +77,7 @@ public class MsgConfig {
      * @return
      */
     @Bean("smsThreadPool")
+    @Conditional(SmsCondition.class)
     public AsyncTaskExecutor smsThreadPool() {
         int smsEnableds = BooleanUtil.toInt(BooleanUtil.isTrue(messageProperties.getAliyunSmsEnabled()))
                 + BooleanUtil.toInt(BooleanUtil.isTrue(messageProperties.getYunpianSmsEnabled()))
@@ -90,7 +94,7 @@ public class MsgConfig {
      * @return
      */
     @Bean("emailThreadPool")
-    @ConditionalOnProperty(name = "msg.email-enabled", havingValue = "true")
+    @ConditionalOnProperty(name = SwitchNames.EMAIL, havingValue = "true")
     public AsyncTaskExecutor emailThreadPool() {
         return createThreadPoolTaskExecutor("email-thread-");
     }

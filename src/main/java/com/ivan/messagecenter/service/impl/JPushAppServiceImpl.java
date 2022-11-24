@@ -14,6 +14,7 @@ import cn.jpush.api.push.model.notification.AndroidNotification;
 import cn.jpush.api.push.model.notification.IosNotification;
 import cn.jpush.api.push.model.notification.Notification;
 import com.ivan.messagecenter.config.property.MessageProperties;
+import com.ivan.messagecenter.config.property.SwitchNames;
 import com.ivan.messagecenter.model.AppMessage;
 import com.ivan.messagecenter.model.BaseResult;
 import com.ivan.messagecenter.service.AppService;
@@ -35,7 +36,7 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 @Service
 @Slf4j
-@ConditionalOnProperty(prefix = "msg", name = "jpushEnabled", havingValue = "true")
+@ConditionalOnProperty(name = SwitchNames.JPUSH, havingValue = "true")
 public class JPushAppServiceImpl implements AppService {
 
     @Autowired

@@ -11,6 +11,7 @@ import com.aliyuncs.exceptions.ClientException;
 import com.aliyuncs.http.MethodType;
 import com.aliyuncs.profile.DefaultProfile;
 import com.ivan.messagecenter.config.property.MessageProperties;
+import com.ivan.messagecenter.config.property.SwitchNames;
 import com.ivan.messagecenter.constant.MessageConstants;
 import com.ivan.messagecenter.model.SmsMessage;
 import com.ivan.messagecenter.service.SmsService;
@@ -32,7 +33,7 @@ import java.util.Objects;
  */
 @Service
 @Slf4j
-@ConditionalOnProperty(prefix = "msg", name = "aliyunSmsEnabled", havingValue = "true")
+@ConditionalOnProperty(name = SwitchNames.ALIYUN, havingValue = "true")
 public class AliyunSmsServiceImpl implements SmsService {
 
     private IAcsClient client;

@@ -3,11 +3,10 @@ package com.ivan.messagecenter.service.impl;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.NumberUtil;
 import cn.hutool.crypto.digest.DigestUtil;
-import cn.hutool.http.HttpRequest;
 import cn.hutool.http.HttpStatus;
-import cn.hutool.http.HttpUtil;
 import cn.hutool.json.JSONUtil;
 import com.ivan.messagecenter.config.property.MessageProperties;
+import com.ivan.messagecenter.config.property.SwitchNames;
 import com.ivan.messagecenter.constant.MessageConstants;
 import com.ivan.messagecenter.model.SmsMessage;
 import com.ivan.messagecenter.service.SmsService;
@@ -31,7 +30,7 @@ import java.util.*;
  */
 @Service
 @Slf4j
-@ConditionalOnProperty(prefix = "msg", name = "qcloudSmsEnabled", havingValue = "true")
+@ConditionalOnProperty(name = SwitchNames.QCLOUD, havingValue = "true")
 public class QCloudSmsServiceImpl implements SmsService {
 
     private static final String BASE_URL = "https://yun.tim.qq.com/v5/tlssmssvr/sendsms?sdkappid=%s&random=%s";

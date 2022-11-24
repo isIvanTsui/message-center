@@ -4,6 +4,7 @@ import cn.hutool.core.util.NumberUtil;
 import cn.hutool.http.HttpStatus;
 import cn.hutool.json.JSONUtil;
 import com.ivan.messagecenter.config.property.MessageProperties;
+import com.ivan.messagecenter.config.property.SwitchNames;
 import com.ivan.messagecenter.constant.MessageConstants;
 import com.ivan.messagecenter.model.SmsMessage;
 import com.ivan.messagecenter.service.SmsService;
@@ -28,7 +29,7 @@ import java.util.Objects;
  */
 @Service
 @Slf4j
-@ConditionalOnProperty(prefix = "msg", name = "yunpianSmsEnabled", havingValue = "true")
+@ConditionalOnProperty(name = SwitchNames.YUNPIAN, havingValue = "true")
 public class YunpianSmsServiceImpl implements SmsService {
 
     private static final String BASE_URL = "https://sms.yunpian.com/v2/sms/single_send.json";
